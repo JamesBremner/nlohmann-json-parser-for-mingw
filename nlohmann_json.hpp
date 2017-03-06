@@ -1,11 +1,12 @@
 /*
     __ _____ _____ _____
  __|  |   __|     |   | |  JSON for Modern C++
-|  |  |__   |  |  | | | |  version 2.1.1
+|  |  |__   |  |  | | | |  version 2.1.1-mingw
 |_____|_____|_____|_|___|  https://github.com/nlohmann/json
 
 Licensed under the MIT License <http://opensource.org/licenses/MIT>.
 Copyright (c) 2013-2017 Niels Lohmann <http://nlohmann.me>.
+Copyright (c) 2017 JamesBremner @SpeakerToRobots
 
 Permission is hereby  granted, free of charge, to any  person obtaining a copy
 of this software and associated  documentation files (the "Software"), to deal
@@ -56,6 +57,43 @@ SOFTWARE.
 #include <type_traits> // add_pointer, conditional, decay, enable_if, false_type, integral_constant, is_arithmetic, is_base_of, is_const, is_constructible, is_convertible, is_default_constructible, is_enum, is_floating_point, is_integral, is_nothrow_move_assignable, is_nothrow_move_constructible, is_pointer, is_reference, is_same, is_scalar, is_signed, remove_const, remove_cv, remove_pointer, remove_reference, true_type, underlying_type
 #include <utility> // declval, forward, make_pair, move, pair, swap
 #include <vector> // vector
+
+//
+//allow compilation under mingw
+//
+
+#include <cstdio>       // needed for snprintf
+
+/* replacements for string functions to_string and stoi which are missing from std
+
+   I have also replaced throughout the code in this file
+   std::to_string with nlohmann::std_support::to_string
+   and
+   std::stoi with nlohmann::std_support::stoi
+
+   You will also have to add the source file nlohman_json.cpp to the project
+
+   This fix was inspired by gregmarr comment on May 18, 2016 on
+   https://github.com/nlohmann/json/issues/136
+   ( although that fix is incomplete and does not
+    allow this header to be included in more than one source file )
+*/
+
+namespace nlohmann
+{
+namespace std_support
+{
+
+std::string to_string(int Value);
+
+int stoi( const std::string& s );
+
+}
+}
+//
+// end of extra code for mingw
+//
+
 
 // exclude unsupported compilers
 #if defined(__clang__)
