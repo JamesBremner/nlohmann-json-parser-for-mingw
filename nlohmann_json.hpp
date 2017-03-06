@@ -2,7 +2,7 @@
     __ _____ _____ _____
  __|  |   __|     |   | |  JSON for Modern C++
 |  |  |__   |  |  | | | |  version 2.1.1-mingw
-|_____|_____|_____|_|___|  https://github.com/JamesBremner/nlohmann-json-parser-for-mingw
+|_____|_____|_____|_|___|  https://github.com/nlohmann/json
 
 Licensed under the MIT License <http://opensource.org/licenses/MIT>.
 Copyright (c) 2013-2017 Niels Lohmann <http://nlohmann.me>.
@@ -84,10 +84,16 @@ namespace nlohmann
 namespace std_support
 {
 
-std::string to_string(int Value);
-
-int stoi( const std::string& s );
-
+inline std::string to_string(int Value)
+{
+    std::ostringstream TempStream;
+    TempStream << Value;
+    return TempStream.str();
+}
+inline int stoi( const std::string& s )
+{
+     return strtol(s.c_str(),0,10);
+}
 }
 }
 //
