@@ -2,7 +2,7 @@
     __ _____ _____ _____
  __|  |   __|     |   | |  JSON for Modern C++
 |  |  |__   |  |  | | | |  version 2.1.1-mingw
-|_____|_____|_____|_|___|  https://github.com/nlohmann/json
+|_____|_____|_____|_|___|  https://github.com/JamesBremner/nlohmann-json-parser-for-mingw
 
 Licensed under the MIT License <http://opensource.org/licenses/MIT>.
 Copyright (c) 2013-2017 Niels Lohmann <http://nlohmann.me>.
