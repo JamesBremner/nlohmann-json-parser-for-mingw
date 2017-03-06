@@ -67,9 +67,9 @@ SOFTWARE.
 /* replacements for string functions to_string and stoi which are missing from std
 
    I have also replaced throughout the code in this file
-   std::to_string with nlohmann::std_support::to_string
+   nlohmann::std_support::to_string with nlohmann::std_support::to_string
    and
-   std::stoi with nlohmann::std_support::stoi
+   nlohmann::std_support::stoi with nlohmann::std_support::stoi
 
    You will also have to add the source file nlohman_json.cpp to the project
 
@@ -1197,7 +1197,7 @@ class basic_json
 #elif defined(__ICC) || defined(__INTEL_COMPILER)
         result["compiler"] = {{"family", "icc"}, {"version", __INTEL_COMPILER}};
 #elif defined(__GNUC__) || defined(__GNUG__)
-        result["compiler"] = {{"family", "gcc"}, {"version", std::to_string(__GNUC__) + "." + std::to_string(__GNUC_MINOR__) + "." + std::to_string(__GNUC_PATCHLEVEL__)}};
+        result["compiler"] = {{"family", "gcc"}, {"version", nlohmann::std_support::to_string(__GNUC__) + "." + nlohmann::std_support::to_string(__GNUC_MINOR__) + "." + nlohmann::std_support::to_string(__GNUC_PATCHLEVEL__)}};
 #elif defined(__HP_cc) || defined(__HP_aCC)
         result["compiler"] = "hp"
 #elif defined(__IBMCPP__)
@@ -1213,7 +1213,7 @@ class basic_json
 #endif
 
 #ifdef __cplusplus
-        result["compiler"]["c++"] = std::to_string(__cplusplus);
+        result["compiler"]["c++"] = nlohmann::std_support::to_string(__cplusplus);
 #else
         result["compiler"]["c++"] = "unknown";
 #endif
@@ -3578,7 +3578,7 @@ class basic_json
             JSON_CATCH (std::out_of_range&)
             {
                 // create better exception explanation
-                JSON_THROW(std::out_of_range("array index " + std::to_string(idx) + " is out of range"));
+                JSON_THROW(std::out_of_range("array index " + nlohmann::std_support::to_string(idx) + " is out of range"));
             }
         }
         else
@@ -3621,7 +3621,7 @@ class basic_json
             JSON_CATCH (std::out_of_range&)
             {
                 // create better exception explanation
-                JSON_THROW(std::out_of_range("array index " + std::to_string(idx) + " is out of range"));
+                JSON_THROW(std::out_of_range("array index " + nlohmann::std_support::to_string(idx) + " is out of range"));
             }
         }
         else
@@ -4573,7 +4573,7 @@ class basic_json
         {
             if (idx >= size())
             {
-                JSON_THROW(std::out_of_range("array index " + std::to_string(idx) + " is out of range"));
+                JSON_THROW(std::out_of_range("array index " + nlohmann::std_support::to_string(idx) + " is out of range"));
             }
 
             m_value.array->erase(m_value.array->begin() + static_cast<difference_type>(idx));
@@ -6665,7 +6665,7 @@ class basic_json
     {
         if (current_index + sizeof(T) + 1 > vec.size())
         {
-            JSON_THROW(std::out_of_range("cannot read " + std::to_string(sizeof(T)) + " bytes from vector"));
+            JSON_THROW(std::out_of_range("cannot read " + nlohmann::std_support::to_string(sizeof(T)) + " bytes from vector"));
         }
 
         T result;
@@ -7463,7 +7463,7 @@ class basic_json
 
                 default:
                 {
-                    JSON_THROW(std::invalid_argument("error parsing a msgpack @ " + std::to_string(current_idx) + ": " + std::to_string(static_cast<int>(v[current_idx]))));
+                    JSON_THROW(std::invalid_argument("error parsing a msgpack @ " + nlohmann::std_support::to_string(current_idx) + ": " + nlohmann::std_support::to_string(static_cast<int>(v[current_idx]))));
                 }
             }
         }
@@ -7948,7 +7948,7 @@ class basic_json
 
             default: // anything else (0xFF is handled inside the other types)
             {
-                JSON_THROW(std::invalid_argument("error parsing a CBOR @ " + std::to_string(current_idx) + ": " + std::to_string(static_cast<int>(v[current_idx]))));
+                JSON_THROW(std::invalid_argument("error parsing a CBOR @ " + nlohmann::std_support::to_string(current_idx) + ": " + nlohmann::std_support::to_string(static_cast<int>(v[current_idx]))));
             }
         }
     }
@@ -8805,7 +8805,7 @@ class basic_json
                     // use integer array index as key
                     case value_t::array:
                     {
-                        return std::to_string(array_index);
+                        return nlohmann::std_support::to_string(array_index);
                     }
 
                     // use key from the object
@@ -11816,7 +11816,7 @@ basic_json_parser_74:
                     case value_t::array:
                     {
                         // create an entry in the array
-                        result = &result->operator[](static_cast<size_type>(std::stoi(reference_token)));
+                        result = &result->operator[](static_cast<size_type>(nlohmann::std_support::stoi(reference_token)));
                         break;
                     }
 
@@ -11908,7 +11908,7 @@ basic_json_parser_74:
                         else
                         {
                             // convert array index to number; unchecked access
-                            ptr = &ptr->operator[](static_cast<size_type>(std::stoi(reference_token)));
+                            ptr = &ptr->operator[](static_cast<size_type>(nlohmann::std_support::stoi(reference_token)));
                         }
                         break;
                     }
@@ -11942,7 +11942,7 @@ basic_json_parser_74:
                         {
                             // "-" always fails the range check
                             JSON_THROW(std::out_of_range("array index '-' (" +
-                                                         std::to_string(ptr->m_value.array->size()) +
+                                                         nlohmann::std_support::to_string(ptr->m_value.array->size()) +
                                                          ") is out of range"));
                         }
 
@@ -11953,7 +11953,7 @@ basic_json_parser_74:
                         }
 
                         // note: at performs range check
-                        ptr = &ptr->at(static_cast<size_type>(std::stoi(reference_token)));
+                        ptr = &ptr->at(static_cast<size_type>(nlohmann::std_support::stoi(reference_token)));
                         break;
                     }
 
@@ -11994,7 +11994,7 @@ basic_json_parser_74:
                         {
                             // "-" cannot be used for const access
                             JSON_THROW(std::out_of_range("array index '-' (" +
-                                                         std::to_string(ptr->m_value.array->size()) +
+                                                         nlohmann::std_support::to_string(ptr->m_value.array->size()) +
                                                          ") is out of range"));
                         }
 
@@ -12005,7 +12005,7 @@ basic_json_parser_74:
                         }
 
                         // use unchecked array access
-                        ptr = &ptr->operator[](static_cast<size_type>(std::stoi(reference_token)));
+                        ptr = &ptr->operator[](static_cast<size_type>(nlohmann::std_support::stoi(reference_token)));
                         break;
                     }
 
@@ -12038,7 +12038,7 @@ basic_json_parser_74:
                         {
                             // "-" always fails the range check
                             JSON_THROW(std::out_of_range("array index '-' (" +
-                                                         std::to_string(ptr->m_value.array->size()) +
+                                                         nlohmann::std_support::to_string(ptr->m_value.array->size()) +
                                                          ") is out of range"));
                         }
 
@@ -12049,7 +12049,7 @@ basic_json_parser_74:
                         }
 
                         // note: at performs range check
-                        ptr = &ptr->at(static_cast<size_type>(std::stoi(reference_token)));
+                        ptr = &ptr->at(static_cast<size_type>(nlohmann::std_support::stoi(reference_token)));
                         break;
                     }
 
@@ -12194,7 +12194,7 @@ basic_json_parser_74:
                         // iterate array and use index as reference string
                         for (size_t i = 0; i < value.m_value.array->size(); ++i)
                         {
-                            flatten(reference_string + "/" + std::to_string(i),
+                            flatten(reference_string + "/" + nlohmann::std_support::to_string(i),
                                     value.m_value.array->operator[](i), result);
                         }
                     }
@@ -12585,11 +12585,11 @@ basic_json_parser_74:
                         }
                         else
                         {
-                            const auto idx = std::stoi(last_path);
+                            const auto idx = nlohmann::std_support::stoi(last_path);
                             if (static_cast<size_type>(idx) > parent.size())
                             {
                                 // avoid undefined behavior
-                                JSON_THROW(std::out_of_range("array index " + std::to_string(idx) + " is out of range"));
+                                JSON_THROW(std::out_of_range("array index " + nlohmann::std_support::to_string(idx) + " is out of range"));
                             }
                             else
                             {
@@ -12633,7 +12633,7 @@ basic_json_parser_74:
             else if (parent.is_array())
             {
                 // note erase performs range check
-                parent.erase(static_cast<size_type>(std::stoi(last_path)));
+                parent.erase(static_cast<size_type>(nlohmann::std_support::stoi(last_path)));
             }
         };
 
@@ -12834,7 +12834,7 @@ basic_json_parser_74:
                     while (i < source.size() and i < target.size())
                     {
                         // recursive call to compare array values at index i
-                        auto temp_diff = diff(source[i], target[i], path + "/" + std::to_string(i));
+                        auto temp_diff = diff(source[i], target[i], path + "/" + nlohmann::std_support::to_string(i));
                         result.insert(result.end(), temp_diff.begin(), temp_diff.end());
                         ++i;
                     }
@@ -12851,7 +12851,7 @@ basic_json_parser_74:
                         result.insert(result.begin() + end_index, object(
                         {
                             {"op", "remove"},
-                            {"path", path + "/" + std::to_string(i)}
+                            {"path", path + "/" + nlohmann::std_support::to_string(i)}
                         }));
                         ++i;
                     }
@@ -12862,7 +12862,7 @@ basic_json_parser_74:
                         result.push_back(
                         {
                             {"op", "add"},
-                            {"path", path + "/" + std::to_string(i)},
+                            {"path", path + "/" + nlohmann::std_support::to_string(i)},
                             {"value", target[i]}
                         });
                         ++i;
