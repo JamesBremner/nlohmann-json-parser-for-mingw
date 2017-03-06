@@ -71,8 +71,6 @@ SOFTWARE.
    and
    nlohmann::std_support::stoi with nlohmann::std_support::stoi
 
-   You will also have to add the source file nlohman_json.cpp to the project
-
    This fix was inspired by gregmarr comment on May 18, 2016 on
    https://github.com/nlohmann/json/issues/136
    ( although that fix is incomplete and does not
